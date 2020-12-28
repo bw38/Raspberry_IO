@@ -11,7 +11,7 @@ uses
 
 
 const
- gpiocmd_version = '0.9';
+ gpiocmd_version = '0.8';
 
 
 type
@@ -326,7 +326,7 @@ var
   Application: TGpio;
 begin
   Application:= TGpio.Create(nil);
-  Application.Title:='GPIO Comandline Tool';
+  Application.Title:='GPIO Table';
   Application.Run;
   Application.Free;
 end.

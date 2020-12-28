@@ -46,11 +46,11 @@
   <CompilerOptions>
     <Version Value="11"/>
     <Target>
-      <Filename Value="gpiocmd"/>
+      <Filename Value="/tmp/gpioxx"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="../mylib"/>
+      <OtherUnitFiles Value="../mylib/gpio"/>
       <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
   </CompilerOptions>
