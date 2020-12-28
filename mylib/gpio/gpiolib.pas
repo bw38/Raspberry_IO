@@ -11,7 +11,7 @@ uses Classes, SysUtils, BaseUnix, Unix, Linux  ;
 
 
 const
-  gpioilb_version = '0.7';
+  gpioilb_version = '0.7.0';
 
 
 type
