@@ -8,7 +8,8 @@
         <Filename Value="demo.lpr"/>
         <IsPartOfProject Value="True"/>
         <IsVisibleTab Value="True"/>
-        <CursorPos X="36" Y="3"/>
+        <TopLine Value="111"/>
+        <CursorPos Y="133"/>
         <UsageCount Value="83"/>
         <Loaded Value="True"/>
       </Unit0>
