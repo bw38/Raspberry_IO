@@ -109,8 +109,6 @@ public
   function  GetPull(gpio: integer): TPull;
 
   function  IsInHeader(gpio: integer): boolean;
-
-  procedure WaitForEvent(gpio: integer);
 end;
 
 
@@ -118,27 +116,12 @@ implementation
 
 
 const
-
-{
-gpioToPUDCLK: array [0..63] of byte = (
-  38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,
-  39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39
-) ;
- }
 //Info-File mit SoC-Informationen als String
 SOC_INFO =  '/sys/firmware/devicetree/base/compatible';
 
-
-{
-SOC_NAMES: array [0..3] of string = (
-  'bcm2835', 'bcm2836', 'bcm2837', 'bcm2711'
-);
-}
-
-
 MAP_SIZE = 4096;
 
-
+//accepted GPIO
 gpio_header = [0..31]; //[2..25, 26];
 
 
@@ -342,63 +325,6 @@ begin
     result:= TPull((lw shr (offs*2)) and 3);
 end;
 
-
-//*****************************************************************************
-
-
-procedure TGpioMap.WaitForEvent(gpio: integer);
-var epfd, fd, n, i: cint;
-    ev:  EPoll_Event;
-    events: array[0..64] of EPoll_Event;
-    s: string;
-    buf: array [0..64] of byte;
-begin
-  epfd:= epoll_create(1);
-
-  fd:= fpopen('/sys/class/gpio/unexport', O_WRONLY);
-  s:= IntToStr(gpio);
-  fpwrite(fd, PChar(s), length(s)+1);
-  fpclose(fd);
-
-  fd:= fpopen('/sys/class/gpio/export', O_WRONLY);
-  s:= IntToStr(gpio);
-  fpwrite(fd, PChar(s), length(s));
-  fpclose(fd);
-  sleep(50);
-
-  fd:= fpopen('/sys/class/gpio/gpio'+s+'/edge', O_RDWR or O_NONBLOCK);
-  fpwrite(fd, 'falling', 7);
-  fpclose(fd);
-
-  fd:= fpopen('/sys/class/gpio/gpio'+s+'/value', O_RDWR or O_NONBLOCK);
-
-  if fd < 0 then begin
-    writeln('Open File failed');
-  end else begin
-
-    ev.events:= EPOLLPRI;
-    ev.data.fd:= fd;
-    writeln('FD: ', fd);
-    n:= epoll_ctl(epfd, EPOLL_CTL_ADD, fd, @ev);
-
-    n:= fpread(fd, nil, 1);
-
-    while (1=1) do begin
-      n:= epoll_wait(epfd, @events, 64, -1);
-      for i:= 0 to n-1 do
-      writeln('YYY: ', n,  ' | ', format('%.8X', [events[i].Events]), ' | ', events[i].Data.fd);
-      fplseek (fd, 0, SEEK_SET);
-      n:= fpread(fd, @buf[0], 1);
-    end;
-
-
-
-  end;
-
-
-
-  fpclose(epfd);
-end;
 
 
 
