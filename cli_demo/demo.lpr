@@ -135,7 +135,7 @@ var
   Application: TDemo;
 begin
   Application:=TDemo.Create(nil);
-  Application.Title:='UART Test';
+  Application.Title:='Demo - Cli';
   Application.Run;
   Application.Free;
 end.
