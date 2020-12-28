@@ -1,0 +1,441 @@
+unit gpiomem;
+
+{$mode objfpc}{$H+}
+
+//{$linklib c}
+
+
+interface
+
+uses Classes, SysUtils, BaseUnix, Unix, Linux  ;
+
+
+type
+  TGPIO_REG_DUMP = (
+    RD_GPALL, RD_GPFSEL, {RD_GPSET, RD_GPCLR,} RD_GPLEV,
+{
+    RD_GPEDS, RD_GPREN, RD_GPFEN,
+    RD_GPHEN, RD_GPLEN, RD_GPAREN, RD_GPAFEN,
+    RD_GPPUD, RD_GPPUDCLK,
+}
+    RD_GPIO_PUP_PDN_CNTRL_REGX
+
+  );
+  TGPIO_REGS_DUMP = set of TGPIO_REG_DUMP;
+
+  {
+  //Interupt detection modes on GPIO
+  TDetectMode = (
+    dmNone, dmRising, dmFalling, dmBoth, dmClearAll
+  );
+  }
+
+const
+  //GPIO-Modes 0..7
+  GPIO_FUNCTION_INPUT  = 0;
+  GPIO_FUNCTION_OUTPUT = 1;
+  GPIO_FUNCTION_ALT5   = 2;
+  GPIO_FUNCTION_ALT4   = 3;
+  GPIO_FUNCTION_ALT0   = 4;
+  GPIO_FUNCTION_ALT1   = 5;
+  GPIO_FUNCTION_ALT2   = 6;
+  GPIO_FUNCTION_ALT3   = 7;
+
+
+
+function  gpio_map_init(): integer;
+procedure gpio_unmap();
+function  gpio_get_soc(): integer;
+function  gpio_get_soc_name(): string;
+function  gpio_is_in_header(gpio: integer): boolean;
+
+procedure gpio_set_fsel(gpio: integer; fc: byte);
+function  gpio_get_fsel(gpio: integer): integer;
+
+procedure gpio_set_pin(gpio: integer; lev: integer);
+function  gpio_get_pin(gpio: integer): integer;
+
+procedure gpio_set_pull(gpio: integer; updwn: integer);
+function gpio_get_pull(gpio: integer): integer;
+
+procedure gpio_dump_write(rgs: TGPIO_REGS_DUMP);
+
+procedure gpio_event_wait(gpio: integer);
+
+implementation
+const
+gpioToPUDCLK: array [0..63] of byte = (
+  38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,
+  39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39
+) ;
+
+//Info-File mit SoC-Informationen als String
+SOC_INFO =  '/sys/firmware/devicetree/base/compatible';
+
+SOC_NUM = 4;
+
+SOC_NAMES: array [0..SOC_NUM-1] of string = (
+  'bcm2835', 'bcm2836', 'bcm2837', 'bcm2711'
+);
+
+MAP_SIZE = 4096;
+//Offset-Adr div 4 - Ausrichtung an LongWord
+GPFSELX: array[0..5] of integer = (0,1,2,3,4,5);  //($00, $04, $08, $0C, $10, $14);
+GPSETX : array[0..1] of integer = (7,8);          //($1C, $20);
+GPCLRX : array[0..1] of integer = (10,11);        //($28, $2C);
+GPLEVX : array[0..1] of integer = (13,14);        //($34, $38);
+{
+GPEDSX : array[0..1] of integer = (16,17);        //($40, $44);
+GPRENX : array[0..1] of integer = (19,20);        //($4C, $50);
+GPFENX : array[0..1] of integer = (22,23);        //($58, $5C);
+GPHENX : array[0..1] of integer = (25,26);        //($64, $68);
+GPLENX : array[0..1] of integer = (28,29);        //($70, $74);
+GPARENX: array[0..1] of integer = (30,31);        //($7C, $80);
+GPAFENX: array[0..1] of integer = (33,34);        //($88, $8C);
+}
+//Pull up/dwn bis PRi3
+GPPUD  : array[0..0] of integer = (37);
+GPPUDCLKX:
+         array[0..1] of integer = (38, 39);
+//Pull up/dwn RPi4
+GPIO_PUP_PDN_CNTRL_REGX:
+         array[0..3] of integer = (57, 58, 59, 60);
+
+gpio_header = [0..31]; //[2..25, 26];
+
+
+var
+  gpiomap: ^LongWord = nil;
+  soc_type: integer = -1;
+
+
+function gpio_map_init(): integer;
+var tf: TextFile;
+    s: string;
+    i, ix: integer;
+    fd: cint;
+begin
+  AssignFile(tf, SOC_INFO);
+  reset(tf);
+  readln(tf, s);
+  CloseFile(tf);
+  s:= LowerCase(s);
+  ix:= -1;
+  for i:= 0 to high(SOC_NAMES) do
+    if pos(SOC_NAMES[i], s) > 0 then begin
+      ix:= i;
+      break;
+    end;
+
+  gpio_unmap();
+
+  fd:= fpopen('/dev/gpiomem', O_RDWR or O_SYNC);
+  if fd < 0 then begin
+    writeln('Device opening failed');
+    ix:= -1;
+  end else
+  gpiomap:= fpmmap(nil, MAP_SIZE, PROT_READ or PROT_WRITE, MAP_SHARED, fd, 0);
+  if gpiomap = MAP_FAILED then begin
+    writeln('GPIO mapping failed');
+    ix:= -2;
+	end;
+  fpclose(fd);
+
+  soc_type:= ix;
+  result:= ix;
+end;
+
+
+procedure gpio_unmap();
+begin
+  if gpiomap <> nil then begin
+    fpmunmap(gpiomap, MAP_SIZE);
+    gpiomap:= nil;
+  end;
+  soc_type:= -1;;
+end;
+
+function  gpio_get_soc(): integer;
+begin
+  result:= soc_type;
+end;
+
+function  gpio_get_soc_name(): string;
+begin
+  if soc_type in [0..high(SOC_NAMES)]
+    then result:= SOC_NAMES[soc_type]
+    else result:= 'undefined';
+end;
+
+function  gpio_is_in_header(gpio: integer): boolean;
+begin
+  result:= gpio in gpio_header;
+end;
+
+//-----------------------------------------------------------------------------
+
+
+procedure gpio_set_fsel(gpio: integer; fc: byte);
+var
+  reg, offs: integer;
+  plw: ^LongWord;
+  lw: LongWord;
+begin
+  if (soc_type < 0) or (fc > 7) or (not gpio_is_in_header(gpio)) then exit;
+  reg:= gpio div 10;
+  offs:= gpio mod 10;
+  plw:= gpiomap + GPFSELX[reg];
+  lw:= plw^;
+  lw:= lw and (not(7 shl (offs*3)));  //3 Bit maskieren 0
+  lw:= lw or fc shl (offs*3);
+  plw^:= lw;
+end;
+
+function gpio_get_fsel(gpio: integer): integer;
+var
+  reg, offs: integer;
+  plw: ^LongWord;
+  lw: LongWord;
+begin
+  result:= -1;
+  if (soc_type < 0) or (not gpio_is_in_header(gpio)) then exit;
+  reg:= gpio div 10;
+  offs:= gpio mod 10;
+  plw:= gpiomap + GPFSELX[reg];
+  lw:= plw^;
+  result:= (lw shr (offs*3)) and 7;
+end;
+
+
+// ----------------------------------------------------------------------------
+//Setzen eines Ausgangs
+//lev nur 0 / 1 zulässig
+//SET- und CLEAR-Register write only
+procedure gpio_set_pin(gpio: integer; lev: integer);
+var
+  lws, lwc: LongWord;
+  plw: ^LongWord;
+begin
+  if (soc_type < 0)  or (not gpio_is_in_header(gpio)) then exit;
+  if gpio in [0..29] then begin
+    //alle zugänglichen Pin in Reg0
+    case lev of
+      0: (gpiomap + GPCLRX[0])^:= 1 shl gpio;   //Einzelbit
+      1: (gpiomap + GPSETX[0])^:= 1 shl gpio;
+    end;
+  end;
+end;
+
+
+function  gpio_get_pin(gpio: integer) : integer;
+begin
+  result:= -1;
+  if (soc_type < 0) or (not gpio_is_in_header(gpio)) then exit;
+  //alle zulässigen Pin in Reg0
+  result:= ((gpiomap + GPLEVX[0])^ shr gpio) and 1;
+end;
+
+
+
+procedure gpio_set_pull(gpio: integer; updwn: integer);
+var
+  reg, offs: integer;
+  lw: LongWord;
+  plw: ^LongWord;
+begin
+  if (soc_type < 0) or (not gpio_is_in_header(gpio)) then exit;
+
+  if soc_type < 3 then begin //Raspberry 1..3
+
+
+  end else begin
+    reg:= gpio div 16;    //16 GPIO je Pull-Register
+    offs:= gpio mod 16;
+
+    plw:= gpiomap + GPIO_PUP_PDN_CNTRL_REGX[reg];
+    lw:= plw^;
+    lw:= lw and (not(3 shl (offs*2)));  //2 Bit maskieren 0
+    lw:= lw or updwn shl (offs*2);
+    plw^:= lw;
+  end;
+end;
+
+
+
+function gpio_get_pull(gpio: interger): integer;
+var
+  reg, offs: integer;
+  lw: LongWord;
+  plw: ^LongWord;
+begin
+  result:= -1;
+  if (soc_type < 0) or (not gpio_is_in_header(gpio)) then exit;
+    reg:= gpio div 16;    //16 GPIO je Pull-Register
+    offs:= gpio mod 16;
+
+    plw:= gpiomap + GPIO_PUP_PDN_CNTRL_REGX[reg];
+    lw:= plw^;
+    result:= (3 shl (offs*2)) and 3;
+end;
+
+procedure gpio_dump_write(rgs: TGPIO_REGS_DUMP);
+var p: ^LongWord;
+    i: integer;
+begin
+  p:= gpiomap;
+
+  if (RD_GPFSEL in rgs) or (RD_GPALL in rgs) then begin
+    write('GPFSEL0..5: | ');
+    for i:= 0 to high(GPFSELX) do
+      write( Format('%.8X | ', [(p+GPFSELX[i])^]) );
+    writeln();
+  end;
+{ Write only
+  if (RD_GPSET in rgs) or (RD_GPALL in rgs) then begin
+    write('GPSET0..1 : | ');
+    for i:= 0 to high(GPSETX) do
+      write( Format('%.8X | ', [(p+GPSETX[i])^]) );
+    writeln();
+  end;
+
+  if (RD_GPCLR in rgs) or (RD_GPALL in rgs) then begin
+    write('GPCLR0..1 : | ');
+    for i:= 0 to high(GPCLRX) do
+      write( Format('%.8X | ', [(p+GPCLRX[i])^]) );
+    writeln();
+  end;
+}
+  if (RD_GPLEV in rgs) or (RD_GPALL in rgs) then begin
+    write('GPLEV0..1 : | ');
+    for i:= 0 to high(GPLEVX) do
+      write( Format('%.8X | ', [(p+GPLEVX[i])^]) );
+    writeln();
+  end;
+ {
+  if (RD_GPEDS in rgs) or (RD_GPALL in rgs) then begin
+    write('GPEDS0..1 : | ');
+    for i:= 0 to high(GPEDSX) do
+      write( Format('%.8X | ', [(p+GPEDSX[i])^]) );
+    writeln();
+  end;
+
+  if (RD_GPREN in rgs) or (RD_GPALL in rgs) then begin
+    write('GPREN0..1 : | ');
+    for i:= 0 to high(GPRENX) do
+      write( Format('%.8X | ', [(p+GPRENX[i])^]) );
+    writeln();
+  end;
+
+  if (RD_GPFEN in rgs) or (RD_GPALL in rgs) then begin
+    write('GPFEN0..1 : | ');
+    for i:= 0 to high(GPFENX) do
+      write( Format('%.8X | ', [(p+GPFENX[i])^]) );
+    writeln();
+  end;
+
+  if (RD_GPHEN in rgs) or (RD_GPALL in rgs) then begin
+    write('GPHEN0..1 : | ');
+    for i:= 0 to high(GPHENX) do
+      write( Format('%.8X | ', [(p+GPHENX[i])^]) );
+    writeln();
+  end;
+
+  if (RD_GPLEN in rgs) or (RD_GPALL in rgs) then begin
+    write('GPLEN0..1 : | ');
+    for i:= 0 to high(GPLENX) do
+      write( Format('%.8X | ', [(p+GPLENX[i])^]) );
+    writeln();
+  end;
+
+  if (RD_GPAREN in rgs) or (RD_GPALL in rgs) then begin
+      write('GPAREN0..1: | ');
+      for i:= 0 to high(GPARENX) do
+        write( Format('%.8X | ', [(p+GPARENX[i])^]) );
+      writeln();
+    end;
+
+  if (RD_GPAFEN in rgs) or (RD_GPALL in rgs) then begin
+      write('GPAFEN0..1: | ');
+      for i:= 0 to high(GPAFENX) do
+        write( Format('%.8X | ', [(p+GPAFENX[i])^]) );
+      writeln();
+    end;
+    }
+  //RPi 1..3
+  // !!!!!!!!!!!!
+
+  //RPi 4
+  if (((RD_GPIO_PUP_PDN_CNTRL_REGX in rgs) or (RD_GPALL in rgs)) and
+      (gpio_get_soc >= 3)) then begin
+       writeln('GPGPIO_PUP_PDN_CNTRL_REG0..3:');
+       write('            | ');
+       for i:= 0 to high(GPIO_PUP_PDN_CNTRL_REGX) do
+         write( Format('%.8X | ', [(p+GPIO_PUP_PDN_CNTRL_REGX[i])^]) );
+       writeln();
+     end;
+  writeln();
+end;
+
+
+//*****************************************************************************
+
+
+procedure gpio_event_wait(gpio: integer);
+var epfd, fd, n, i: cint;
+    ev:  EPoll_Event;
+    events: array[0..64] of EPoll_Event;
+    s: string;
+    buf: array [0..64] of byte;
+begin
+  epfd:= epoll_create(1);
+
+  fd:= fpopen('/sys/class/gpio/unexport', O_WRONLY);
+  s:= IntToStr(gpio);
+  fpwrite(fd, PChar(s), length(s)+1);
+  fpclose(fd);
+
+  fd:= fpopen('/sys/class/gpio/export', O_WRONLY);
+  s:= IntToStr(gpio);
+  fpwrite(fd, PChar(s), length(s));
+  fpclose(fd);
+  sleep(50);
+
+  fd:= fpopen('/sys/class/gpio/gpio'+s+'/edge', O_RDWR or O_NONBLOCK);
+  fpwrite(fd, 'falling', 7);
+  fpclose(fd);
+
+  fd:= fpopen('/sys/class/gpio/gpio'+s+'/value', O_RDWR or O_NONBLOCK);
+
+  if fd < 0 then begin
+    writeln('Open File failed');
+  end else begin
+
+    ev.events:= EPOLLPRI;
+    ev.data.fd:= fd;
+    writeln('FD: ', fd);
+    n:= epoll_ctl(epfd, EPOLL_CTL_ADD, fd, @ev);
+
+    n:= fpread(fd, nil, 1);
+
+    while (1=1) do begin
+      n:= epoll_wait(epfd, @events, 64, -1);
+      for i:= 0 to n-1 do
+      writeln('YYY: ', n,  ' | ', format('%.8X', [events[i].Events]), ' | ', events[i].Data.fd);
+      fplseek (fd, 0, SEEK_SET);
+      n:= fpread(fd, @buf[0], 1);
+    end;
+
+
+
+  end;
+
+
+
+  fpclose(epfd);
+end;
+
+
+
+
+end.
+

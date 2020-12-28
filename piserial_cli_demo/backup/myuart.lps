@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <Version Value="11"/>
+    <BuildModes Active="Default"/>
+    <Units Count="17">
+      <Unit0>
+        <Filename Value="myuart.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="66"/>
+        <CursorPos X="5" Y="87"/>
+        <UsageCount Value="55"/>
+        <Loaded Value="True"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="piuartlib.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="238"/>
+        <CursorPos X="18" Y="266"/>
+        <UsageCount Value="55"/>
+        <Loaded Value="True"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="serial_def.inc"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="2"/>
+        <CursorPos X="71" Y="23"/>
+        <UsageCount Value="39"/>
+        <Loaded Value="True"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="../mylib/gpiolib.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="338"/>
+        <CursorPos X="11" Y="358"/>
+        <UsageCount Value="8"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="/usr/share/fpcsrc/3.2.0/rtl/unix/bunxovlh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="34"/>
+        <CursorPos X="11" Y="52"/>
+        <UsageCount Value="10"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="/usr/share/fpcsrc/3.2.0/rtl/linux/termios.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1187"/>
+        <CursorPos X="4" Y="1193"/>
+        <UsageCount Value="18"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="/usr/share/fpcsrc/3.2.0/rtl/unix/termiosh.inc"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="16" Y="20"/>
+        <UsageCount Value="11"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="/usr/share/fpcsrc/3.2.0/rtl/linux/termiosproc.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="8"/>
+        <CursorPos X="3" Y="37"/>
+        <UsageCount Value="11"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="/usr/share/fpcsrc/3.2.0/rtl/unix/bunxh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="80"/>
+        <CursorPos X="15" Y="98"/>
+        <UsageCount Value="8"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="/usr/share/fpcsrc/3.2.0/rtl/unix/bunxovl.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="187"/>
+        <CursorPos X="3" Y="229"/>
+        <UsageCount Value="10"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="../../../Projects/Lazarus/Lib/LazSerial/synafpc.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="106"/>
+        <UsageCount Value="10"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="../../../Projects/Lazarus/Lib/LazSerial/LazSerialPort.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="../../../Projects/Lazarus/Lib/LazSerial/lazserial.pas"/>
+        <UnitName Value="LazSerial"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="97"/>
+        <CursorPos X="17" Y="121"/>
+        <UsageCount Value="10"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="/mnt/pi.nas/Raspberry/Lazarus/ISR_Demo/main.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="/mnt/pi.nas/Raspberry/Lazarus/mylib/wiringpi/wiringpi.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="82"/>
+        <UsageCount Value="10"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="/usr/share/fpcsrc/3.2.0/rtl/objpas/classes/classesh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1717"/>
+        <CursorPos X="3" Y="1705"/>
+        <UsageCount Value="10"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="piserial_old.pas"/>
+        <UnitName Value="piSerial"/>
+        <EditorIndex Value="3"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit16>
+    </Units>
+    <JumpHistory Count="30" HistoryIndex="29">
+      <Position1>
+        <Filename Value="piuartlib.pas"/>
+        <Caret Line="244" Column="26" TopLine="215"/>
+      </Position1>
+      <Position2>
+        <Filename Value="piuartlib.pas"/>
+        <Caret Line="240" Column="17" TopLine="215"/>
+      </Position2>
+      <Position3>
+        <Filename Value="piuartlib.pas"/>
+        <Caret Line="56" Column="15" TopLine="46"/>
+      </Position3>
+      <Position4>
+        <Filename Value="piuartlib.pas"/>
+        <Caret Line="227" Column="30" TopLine="204"/>
+      </Position4>
+      <Position5>
+        <Filename Value="piuartlib.pas"/>
+        <Caret Line="55" Column="27" TopLine="36"/>
+      </Position5>
+      <Position6>
+        <Filename Value="piuartlib.pas"/>
+        <Caret Line="244" TopLine="213"/>
+      </Position6>
+      <Position7>
+        <Filename Value="piuartlib.pas"/>
+        <Caret Line="186" TopLine="164"/>
+      </Position7>
+      <Position8>
+        <Filename Value="piuartlib.pas"/>
+        <Caret Line="244" TopLine="212"/>
+      </Position8>
+      <Position9>
+        <Filename Value="piuartlib.pas"/>
+        <Caret Line="186" TopLine="167"/>
+      </Position9>
+      <Position10>
+        <Filename Value="piuartlib.pas"/>
+        <Caret Line="244" TopLine="212"/>
+      </Position10>
+      <Position11>
+        <Filename Value="piuartlib.pas"/>
+        <Caret Line="186" TopLine="167"/>
+      </Position11>
+      <Position12>
+        <Filename Value="piuartlib.pas"/>
+        <Caret Line="74" TopLine="55"/>
+      </Position12>
+      <Position13>
+        <Filename Value="myuart.lpr"/>
+        <Caret Line="89" TopLine="71"/>
+      </Position13>
+      <Position14>
+        <Filename Value="myuart.lpr"/>
+        <Caret Line="90" TopLine="71"/>
+      </Position14>
+      <Position15>
+        <Filename Value="myuart.lpr"/>
+        <Caret Line="92" TopLine="71"/>
+      </Position15>
+      <Position16>
+        <Filename Value="piuartlib.pas"/>
+        <Caret Line="186" TopLine="167"/>
+      </Position16>
+      <Position17>
+        <Filename Value="myuart.lpr"/>
+        <Caret Line="90" TopLine="71"/>
+      </Position17>
+      <Position18>
+        <Filename Value="piuartlib.pas"/>
+        <Caret Line="72" TopLine="59"/>
+      </Position18>
+      <Position19>
+        <Filename Value="piuartlib.pas"/>
+        <Caret Line="73" Column="4" TopLine="59"/>
+      </Position19>
+      <Position20>
+        <Filename Value="piuartlib.pas"/>
+        <Caret Line="35" Column="16" TopLine="9"/>
+      </Position20>
+      <Position21>
+        <Filename Value="piuartlib.pas"/>
+        <Caret Line="251" Column="21" TopLine="217"/>
+      </Position21>
+      <Position22>
+        <Filename Value="piuartlib.pas"/>
+        <Caret Line="176" Column="37" TopLine="154"/>
+      </Position22>
+      <Position23>
+        <Filename Value="piuartlib.pas"/>
+        <Caret Line="177" Column="18" TopLine="168"/>
+      </Position23>
+      <Position24>
+        <Filename Value="piuartlib.pas"/>
+        <Caret Line="246" Column="7" TopLine="228"/>
+      </Position24>
+      <Position25>
+        <Filename Value="piuartlib.pas"/>
+        <Caret Line="36" Column="34" TopLine="19"/>
+      </Position25>
+      <Position26>
+        <Filename Value="piuartlib.pas"/>
+        <Caret Line="176" Column="44" TopLine="158"/>
+      </Position26>
+      <Position27>
+        <Filename Value="piuartlib.pas"/>
+        <Caret Line="247" Column="17" TopLine="227"/>
+      </Position27>
+      <Position28>
+        <Filename Value="piuartlib.pas"/>
+        <Caret Line="176" Column="38" TopLine="158"/>
+      </Position28>
+      <Position29>
+        <Filename Value="piuartlib.pas"/>
+        <Caret Line="65" Column="3" TopLine="48"/>
+      </Position29>
+      <Position30>
+        <Filename Value="myuart.lpr"/>
+        <Caret Line="87" Column="5" TopLine="66"/>
+      </Position30>
+    </JumpHistory>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes Count="0" ActiveMode=""/>
+    </RunParams>
+  </ProjectSession>
+  <Debugging>
+    <Watches Count="4">
+      <Item1>
+        <Expression Value="n"/>
+      </Item1>
+      <Item2>
+        <Expression Value="bd"/>
+      </Item2>
+      <Item3>
+        <Expression Value="cfg_tty.c_cflag"/>
+        <DisplayStyle Value="wdfHex"/>
+      </Item3>
+      <Item4 ClassAutoCast="True">
+        <Expression Value="cfg_tty.c_ospeed"/>
+        <DisplayStyle Value="wdfStructure"/>
+      </Item4>
+    </Watches>
+  </Debugging>
+</CONFIG>
