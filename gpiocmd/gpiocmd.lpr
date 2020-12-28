@@ -11,7 +11,7 @@ uses
 
 
 const
- gpiocmd_version = '0.8';
+ gpiocmd_version = '0.8.1';
 
 
 type
@@ -304,22 +304,19 @@ end;
 
 procedure TGpio.WriteHelp;
 begin
-  writeln('GPIO Kommandozeilen-Werkzeug');
-  writeln('Anwendung:');
-  writeln('   gpio -arg gpio value'#10#13);
-  writeln('Argumente:');
-  writeln('   -r, -read   : Lesen eines oder mehrerer GPIO'#10#13,
-          '                    GPIO durch Leerzeichen getrennt'#10#13);
-  writeln('   -w, -write  : Schreiben eines GPIO-Ausgangs'#10#13,
-          '                    Value: [0, 1]'#10#13);
-  writeln('   -f, -fsel   : Setzen einer GPIO-Funktion'#10#13,
-          '                    Value: [in, input, out, output, alt0(..5)]'#10#13);
-  writeln('   -p, -pull   : PullUp/Dwn-Widerstände eines GPIO schalten'#10#13,
-          '                    Value: [no, none, up, dn, dwn, down]'#10#13);
-  writeln('   -t, -table  : Übersicht GPIO - Header'#10#13);
-  writeln('   -d, -dump   : Hexdump GPIO-Register'#10#13);
-  writeln('   -v, -version: Versionsangaben'#10#13);
-  writeln('   -h, -help   : Hilfe'#10#13);
+  writeln('GPIO Kommandozeilen-Werkzeug'#10#13);
+  writeln('use: gpio -arg gpio [value]');
+  writeln('args:');
+  writeln('  -r, -read   : Lesen eines oder mehrerer GPIO');
+  writeln('  -w, -write  : Schreiben eines GPIO-Ausg. | Value: [0, 1]');
+  writeln('  -f, -fsel   : Setzen einer GPIO-Funktion | Value: [in, input, out, output, alt0(..5)]');
+  writeln('  -p, -pull   : PullUp/Dwn-Widerstände     | Value: [no, none, up, dn, dwn, down]');
+  writeln('  -t, -table  : Übersicht GPIO');
+  writeln('  -d, -dump   : Hexdump GPIO-Register');
+  writeln('  -v, -version: Versionsangaben');
+  writeln('  -h, -help   : Hilfe');
+  writeln('gpio:');
+  writeln(' 0..31 - numerischer Wert BCM');
 end;
 
 var
