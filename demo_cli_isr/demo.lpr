@@ -1,6 +1,11 @@
 program demo;
 
-//Example using raspberry serial port
+{
+  Example GPIO-Monitoring - similar ISR
+  Rotation-Encoder ALPS conected to GPIO 17 + 27 / GND
+
+  https://tech.alpsalpine.com/prod/e/pdf/encoder/incremental/ec20a/ec20a.pdf
+}
 
 {$mode objfpc}{$H+}
 
@@ -12,80 +17,108 @@ uses
   cli_keyboard, gpiolib, gpioisr
   ;
 
+const
+  TermA = 17; //GPIO Pins Rotary Encoder Alps
+  TermB = 27;
+
 type
 TDemo = class(TCustomApplication)
 protected
   procedure DoRun; override;
 private
-  kbd: TKeyBoard;
+  kbd: TKeyMonitor;
   gpio: TGpioMap;
-  timer1: TFpTimer;
-  isr: TGpioCallback;
+  gpio_mon: TGpioMonitor;
 
-  test: integer;
-  procedure KeyChar(c: char);
-  procedure Timer1Event(Sender: TObject);
+  toutRotation: TFpTimer;
+  Fvalue: integer;
+  Rotation: integer;
 
-  procedure EdgeDetected(r, f: LongWord);
+  procedure SetValue(v: integer);
+  procedure KeyDetected(c: char);
+  procedure RotTimeout(Sender: TObject);
+  procedure EdgeDetected(ev: TGpioEvent);
 public
+  property Value: integer read FValue write SetValue;
   constructor Create(TheOwner: TComponent); override;
   destructor Destroy; override;
 end;
 
-//Example-Timer
-procedure TDemo.KeyChar(c: char);
+procedure TDemo.SetValue(v: integer);
 begin
-  if c = 'q' then Terminate();
+  FValue:= v;
+  // **** userprogram ****
+  writeln(Value, #13);
 end;
 
-procedure TDemo.Timer1Event(Sender: TObject);
+//Monitor Keyboard- / ssh- Events
+procedure TDemo.KeyDetected(c: char);
 begin
-  writeln('XXXXX');
+  case c of
+    'q',#3: Terminate();
+    '0'   : Value:= 0;
+  end;
 end;
 
-procedure TDemo.EdgeDetected(r, f: LongWord);
+//50ms without rotationchange
+procedure TDemo.RotTimeout(Sender: TObject);
 begin
-  writeln('######');
+  toutRotation.Enabled:= false;
+  Rotation:= 0;
 end;
+
+procedure TDemo.EdgeDetected(ev: TGpioEvent);
+begin
+  if (ev.gpio = TermB) and (Rotation = 0) then begin
+    if gpio.GetValue(TermA) = gpio.GetValue(TermB)
+      then Rotation:= -1
+      else Rotation:= 1;
+    Value:= Value + Rotation;
+    toutRotation.Enabled:= true;
+  end;
+  if (ev.gpio = TermA) and (Rotation <> 0) then Rotation:= 0;
+end;
+
 
 procedure TDemo.DoRun;
-var
-  err, i: integer;
 begin
 
   //Read StdIn-Char in Thread ('q' => Terminate)
-  kbd:= TKeyBoard.Create();
-  kbd.onKeyCharRcvd:= @KeyChar;
+  kbd:= TKeyMonitor.Create();
+  kbd.onKeyCharRcvd:= @KeyDetected;
 
-  //Timer-Example
-  timer1:= TFpTimer.Create(self);
-  timer1.OnTimer:= @Timer1Event;
-  timer1.Interval:= 3000;
-//  timer1.Enabled:= true;
+  //corr direction change
+  toutRotation:= TFpTimer.Create(Self);
+  toutRotation.OnTimer:= @RotTimeOut;
+  toutRotation.Interval:= 50;
+  toutRotation.Enabled:= false;;
 
-  //Mux BCM17 & 27 as input / pullup
+  //Mux BCM17 & 27 as input & pullup
   gpio:= TGpioMap.Create;
-  gpio.SetFSel(17, fsel_input);
-  gpio.SetPull(17, pull_Up);
-  gpio.SetFSel(27, fsel_input);
-  gpio.SetPull(27, pull_Up);
-  gpio.Free;
+  gpio.SetFSel(TermA, fsel_input);
+  gpio.SetPull(TermA, pull_Up);
+  gpio.SetFSel(TermB, fsel_input);
+  gpio.SetPull(TermB, pull_Up);
 
-  test:= 0;
+  gpio_mon:= TGpioMonitor.Create();
+  gpio_mon.onEdgeDetected:= @EdgeDetected;
+  gpio_mon.useSynchronize:= false;
+  gpio_mon.Delay:= 3;
+  gpio_mon.AddGpio(TermA, edBoth);
+  gpio_mon.AddGpio(TermB, edBoth);
+  gpio_mon.Open(); //Start Thread
 
-  isr:= TGpioCallback.Create();
-  isr.onEdgeDetected:= @EdgeDetected;
-  err:= isr.AddGpio(17, edBoth);
-  writeln('AddErr: ', err);
-  isr.Open(); //Start Thread
-
+  Value:= 0;
+  Rotation:= 0;
 
   while not terminated do begin
     CheckSynchronize(1000); //Syncronize - Serial and readkey(ssh-input)
 
   end; //mainloop
   writeln ('Terminate Program');
-  isr.Free;
+
+  gpio_mon.Free;
+  gpio.Free;
 
 //  kbd.Free;
 
@@ -108,7 +141,7 @@ var
   Application: TDemo;
 begin
   Application:=TDemo.Create(nil);
-  Application.Title:='UART Test';
+  Application.Title:='Rotattion-Encoder-Test';
   Application.Run;
   Application.Free;
 end.

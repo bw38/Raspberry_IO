@@ -18,7 +18,7 @@ protected
   procedure DoRun; override;
 private
   uart: TSerial;
-  kbd: TKeyBoard;
+  kbd: TKeyMonitor;
   gpio: TGpioMap;
 
   timer1: TFpTimer;
@@ -62,7 +62,7 @@ var
 begin
 
   //Read StdIn-Char in Thread ('q' => Terminate)
-  kbd:= TKeyBoard.Create();
+  kbd:= TKeyMonitor.Create();
   kbd.onKeyCharRcvd:= @KeyChar;
 
   //Timer-Example

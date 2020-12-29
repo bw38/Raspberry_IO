@@ -3,8 +3,9 @@ unit cli_keyboard;
 {$mode objfpc}{$H+}
 
 { ***************************************************************************
-  Blocking Read from keybuffer in Thread
-  --------------------------------------
+  Monitor Keyboard-Event in Thread
+  Return ASCII-Code
+  ---------------------------------
   Usage:
 
   procedure TDemo.KeyChar(c: char);
@@ -37,7 +38,7 @@ type
 //Callback type
 TKeyChar = procedure(c: char) of object;
 
-TKeyboard = class (TThread)
+TKeyMonitor = class (TThread)
 protected
   procedure Execute(); override;
 private
@@ -54,28 +55,29 @@ end;
 
 implementation
 
-constructor TKeyboard.Create();
+constructor TKeyMonitor.Create();
 begin
   inherited Create(false);
   FreeOnTerminate:= true;
   onKeyCharRcvd:= nil;
 end;
 
-destructor  TKeyBoard.Destroy();
+destructor  TKeyMonitor.Destroy();
 begin
   inherited Destroy();
 end;
 
-procedure TKeyBoard.Execute();
+procedure TKeyMonitor.Execute();
 begin
   while not Terminated do begin
+    //blocked reading
     KeyChar:= ReadKey();
     synchronize(@KeyCharRcvd);
   end;
 end;
 
 //Notifier
-procedure TKeyBoard.KeyCharRcvd;
+procedure TKeyMonitor.KeyCharRcvd;
 begin
   if Assigned(FOnKeyCharRcvd) then FOnKeyCharRcvd(KeyChar);
 end;

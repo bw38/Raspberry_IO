@@ -8,7 +8,8 @@
         <Filename Value="demo.lpr"/>
         <IsPartOfProject Value="True"/>
         <IsVisibleTab Value="True"/>
-        <CursorPos X="37" Y="12"/>
+        <TopLine Value="49"/>
+        <CursorPos X="20" Y="65"/>
         <UsageCount Value="86"/>
         <Loaded Value="True"/>
       </Unit0>
@@ -176,11 +177,19 @@
         <UsageCount Value="11"/>
       </Unit25>
     </Units>
-    <JumpHistory Count="1">
+    <JumpHistory Count="3" HistoryIndex="2">
       <Position1>
         <Filename Value="../mylib/gpio/gpiolib.pas"/>
         <Caret Line="111" Column="48" TopLine="92"/>
       </Position1>
+      <Position2>
+        <Filename Value="demo.lpr"/>
+        <Caret Line="12" Column="37"/>
+      </Position2>
+      <Position3>
+        <Filename Value="demo.lpr"/>
+        <Caret Line="21" Column="19" TopLine="5"/>
+      </Position3>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

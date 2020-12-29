@@ -122,7 +122,7 @@ SOC_INFO =  '/sys/firmware/devicetree/base/compatible';
 MAP_SIZE = 4096;
 
 //accepted GPIO
-gpio_header = [0..31]; //[2..25, 26];
+gpio_header = [0..31];
 
 
 constructor TGpioMap.create();
