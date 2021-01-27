@@ -15,7 +15,7 @@ unit cli_keyboard;
 
   procedure TDemo.DoRun;
   begin
-    kbd:= TKeyBoard.Create();
+    kbd:= TKeyMonitor.Create();
     kbd.onKeyCharRcvd:= @KeyChar;
     ....
     while not terminated do begin
