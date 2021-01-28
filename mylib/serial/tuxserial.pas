@@ -149,6 +149,7 @@ TSerial = class(TThread)
     function Open(): integer;
     function Flush(): integer;
     function WriteData(buf: array of Byte): integer;
+    function WriteString(s: string): integer;
 
     function SetCtrl(cl: TCtrl_Line;  ls: TLine_State): integer;
     function GetCtrl(cl: TCtrl_Line): TLine_State;
@@ -315,6 +316,16 @@ begin
 end;
 
 
+//String schreiben
+function TSerial.WriteString(s: string): integer;
+var buf: array of byte;
+begin
+  buf := TEncoding.UTF8.GetBytes(unicodestring(s));
+  result:= WriteData(buf);
+end;
+
+
+//CTRL-IO
 function TSerial.SetCtrl(cl: TCtrl_Line;  ls: TLine_State): integer;
 var ctrl, err: integer;
 begin

@@ -99,13 +99,17 @@ begin
   uart.Flush();
 
   ctrl:= clRTS; //Test Osizilloscope, write blocking on large blocks
-
+{
   setlength(buf, 10000);     //Tx-Test-Buffer
   for i:= 0 to length(buf)-1 do buf[i]:= i and $FF;
 
   uart.SetCtrl(ctrl, lsOn);
   uart.WriteData(buf);
   uart.SetCtrl(ctrl, lsOff);
+ }
+
+ uart.WriteString('Hello World');
+
 
   while not terminated do begin
     CheckSynchronize(1000); //Syncronize - Serial and readkey(ssh-input)
