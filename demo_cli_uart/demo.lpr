@@ -98,7 +98,7 @@ begin
 
   uart.Flush();
 
-  ctrl:= clRTS; //Test Osizilloscope, wirte blocking on large blocks
+  ctrl:= clRTS; //Test Osizilloscope, write blocking on large blocks
 
   setlength(buf, 10000);     //Tx-Test-Buffer
   for i:= 0 to length(buf)-1 do buf[i]:= i and $FF;
