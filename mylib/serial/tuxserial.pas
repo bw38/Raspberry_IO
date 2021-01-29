@@ -143,6 +143,8 @@ TSerial = class(TThread)
     property onDataRcvd: TDataReceived read FOnDataReceived write FOnDataReceived;
     property UseSynchronize: boolean write FuseSynchronize;
 
+    property device: string read strDev;
+
     constructor Create(dev: string);
     destructor Destroy; override;
 
@@ -318,9 +320,12 @@ end;
 
 //String schreiben
 function TSerial.WriteString(s: string): integer;
-var buf: array of byte;
+var
+  buf: array of byte;
+  i: integer;
 begin
-  buf := TEncoding.UTF8.GetBytes(unicodestring(s));
+  setlength(buf, length(s));
+  for i:= 1 to length(s) do buf[i-1]:= byte(s[i]);
   result:= WriteData(buf);
 end;
 
