@@ -141,7 +141,7 @@ var
   Application: TDemo;
 begin
   Application:=TDemo.Create(nil);
-  Application.Title:='Rotattion-Encoder-Test';
+  Application.Title:='UART Test';
   Application.Run;
   Application.Free;
 end.

@@ -20,9 +20,9 @@ fpc \
 -Filib/arm-linux \
 -Fl/usr/lib/gcc/arm-linux-gnueabihf/8 \
 -Fu. \
--Fu../mylib/serial \
--Fu../mylib/kbd \
--Fu../mylib/gpio \
+-Fu../pilib/serial \
+-Fu../pilib/kbd \
+-Fu../pilib/gpio \
 -Fu/home/pi/lazarus/components/lazutils \
 -o./binary/demo
 

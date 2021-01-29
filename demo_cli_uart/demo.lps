@@ -7,8 +7,8 @@
       <Unit0>
         <Filename Value="demo.lpr"/>
         <IsPartOfProject Value="True"/>
-        <TopLine Value="25"/>
-        <CursorPos X="7" Y="111"/>
+        <IsVisibleTab Value="True"/>
+        <CursorPos X="44" Y="12"/>
         <UsageCount Value="88"/>
         <Loaded Value="True"/>
       </Unit0>
@@ -155,12 +155,10 @@
       </Unit22>
       <Unit23>
         <Filename Value="../mylib/serial/tuxserial.pas"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="299"/>
         <CursorPos X="47" Y="323"/>
         <UsageCount Value="12"/>
-        <Loaded Value="True"/>
       </Unit23>
       <Unit24>
         <Filename Value="../mylib/gpio/gpiolib.pas"/>
@@ -201,16 +199,16 @@
         <Caret Line="53" Column="44" TopLine="31"/>
       </Position3>
       <Position4>
-        <Filename Value="../mylib/serial/tuxserial.pas"/>
-        <Caret Line="322" Column="14" TopLine="296"/>
+        <Filename Value="demo.lpr"/>
+        <Caret Line="112" Column="2" TopLine="86"/>
       </Position4>
       <Position5>
         <Filename Value="demo.lpr"/>
-        <Caret Line="112" Column="2" TopLine="86"/>
+        <Caret Line="111" Column="7" TopLine="96"/>
       </Position5>
       <Position6>
         <Filename Value="demo.lpr"/>
-        <Caret Line="111" Column="7" TopLine="96"/>
+        <Caret Line="12" Column="45"/>
       </Position6>
     </JumpHistory>
     <RunParams>

@@ -7,6 +7,7 @@
       <Unit0>
         <Filename Value="gpiocmd.lpr"/>
         <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
         <TopLine Value="297"/>
         <CursorPos X="66" Y="306"/>
         <UsageCount Value="83"/>
@@ -24,7 +25,7 @@
       <Unit2>
         <Filename Value="gpiotable.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="1"/>
         <TopLine Value="33"/>
         <CursorPos X="45" Y="179"/>
         <UsageCount Value="55"/>
@@ -85,14 +86,12 @@
       </Unit10>
       <Unit11>
         <Filename Value="../mylib/gpio/gpiolib.pas"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="-1"/>
         <CursorPos X="44" Y="15"/>
         <UsageCount Value="11"/>
-        <Loaded Value="True"/>
       </Unit11>
     </Units>
-    <JumpHistory Count="16" HistoryIndex="15">
+    <JumpHistory Count="15" HistoryIndex="14">
       <Position1>
         <Filename Value="gpiocmd.lpr"/>
         <Caret Line="73" Column="61" TopLine="56"/>
@@ -150,12 +149,9 @@
         <Caret Line="257" Column="42" TopLine="239"/>
       </Position14>
       <Position15>
-        <Filename Value="../mylib/gpio/gpiolib.pas"/>
-      </Position15>
-      <Position16>
         <Filename Value="gpiocmd.lpr"/>
         <Caret Line="314" Column="100" TopLine="290"/>
-      </Position16>
+      </Position15>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
