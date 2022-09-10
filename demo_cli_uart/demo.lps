@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <Version Value="11"/>
+    <BuildModes Active="Default"/>
+    <Units Count="28">
+      <Unit0>
+        <Filename Value="demo.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
+        <CursorPos X="44" Y="12"/>
+        <UsageCount Value="88"/>
+        <Loaded Value="True"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="piuartlib.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos Y="14"/>
+        <UsageCount Value="88"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="serial_def.inc"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="72"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="cli_keyboard.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="78" Y="24"/>
+        <UsageCount Value="44"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="../mylib/gpioisr.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="25"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="../mylib/gpiolib.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="338"/>
+        <CursorPos X="11" Y="358"/>
+        <UsageCount Value="5"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="/usr/share/fpcsrc/3.2.0/rtl/unix/bunxovlh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="34"/>
+        <CursorPos X="11" Y="52"/>
+        <UsageCount Value="7"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="/usr/share/fpcsrc/3.2.0/rtl/linux/termios.inc"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="3" Y="1057"/>
+        <UsageCount Value="15"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="/usr/share/fpcsrc/3.2.0/rtl/unix/termiosh.inc"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="11" Y="30"/>
+        <UsageCount Value="10"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="/usr/share/fpcsrc/3.2.0/rtl/linux/termiosproc.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="8"/>
+        <CursorPos X="3" Y="37"/>
+        <UsageCount Value="8"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="/usr/share/fpcsrc/3.2.0/rtl/unix/bunxh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="64"/>
+        <CursorPos X="20" Y="98"/>
+        <UsageCount Value="10"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="/usr/share/fpcsrc/3.2.0/rtl/unix/bunxovl.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="187"/>
+        <CursorPos X="3" Y="229"/>
+        <UsageCount Value="7"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="../../../Projects/Lazarus/Lib/LazSerial/synafpc.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="106"/>
+        <UsageCount Value="7"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="../../../Projects/Lazarus/Lib/LazSerial/LazSerialPort.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="7"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="../../../Projects/Lazarus/Lib/LazSerial/lazserial.pas"/>
+        <UnitName Value="LazSerial"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="97"/>
+        <CursorPos X="17" Y="121"/>
+        <UsageCount Value="7"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="/mnt/pi.nas/Raspberry/Lazarus/ISR_Demo/main.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="7"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="/mnt/pi.nas/Raspberry/Lazarus/mylib/wiringpi/wiringpi.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="82"/>
+        <UsageCount Value="7"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="/usr/share/fpcsrc/3.2.0/rtl/objpas/classes/classesh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1810"/>
+        <CursorPos X="15" Y="1826"/>
+        <UsageCount Value="7"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="piserial_old.pas"/>
+        <UnitName Value="piSerial"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="3" Y="127"/>
+        <UsageCount Value="7"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="tuxserial.pas"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos Y="22"/>
+        <UsageCount Value="22"/>
+      </Unit19>
+      <Unit20>
+        <Filename Value="/usr/share/fpcsrc/3.2.0/packages/rtl-console/src/inc/keybrdh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="121"/>
+        <CursorPos X="11" Y="140"/>
+        <UsageCount Value="9"/>
+      </Unit20>
+      <Unit21>
+        <Filename Value="/usr/share/fpcsrc/3.2.0/rtl/unix/aliasctp.inc"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="3" Y="33"/>
+        <UsageCount Value="10"/>
+      </Unit21>
+      <Unit22>
+        <Filename Value="../mylib/kbd/cli_keyboard.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+      </Unit22>
+      <Unit23>
+        <Filename Value="../mylib/serial/tuxserial.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="299"/>
+        <CursorPos X="47" Y="323"/>
+        <UsageCount Value="12"/>
+      </Unit23>
+      <Unit24>
+        <Filename Value="../mylib/gpio/gpiolib.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="133"/>
+        <CursorPos Y="149"/>
+        <UsageCount Value="12"/>
+      </Unit24>
+      <Unit25>
+        <Filename Value="../mylib/gpio/gpioisr.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="125"/>
+        <CursorPos X="2" Y="170"/>
+        <UsageCount Value="11"/>
+      </Unit25>
+      <Unit26>
+        <Filename Value="../mylib/kbd/backup/cli_keyboard.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+      </Unit26>
+      <Unit27>
+        <Filename Value="../../../.cache/.fr-RHGmgs/Raspberry_IO-main/mylib/kbd/cli_keyboard.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+      </Unit27>
+    </Units>
+    <JumpHistory Count="6" HistoryIndex="5">
+      <Position1>
+        <Filename Value="demo.lpr"/>
+        <Caret Line="12" Column="37"/>
+      </Position1>
+      <Position2>
+        <Filename Value="demo.lpr"/>
+        <Caret Line="21" Column="19" TopLine="5"/>
+      </Position2>
+      <Position3>
+        <Filename Value="demo.lpr"/>
+        <Caret Line="53" Column="44" TopLine="31"/>
+      </Position3>
+      <Position4>
+        <Filename Value="demo.lpr"/>
+        <Caret Line="112" Column="2" TopLine="86"/>
+      </Position4>
+      <Position5>
+        <Filename Value="demo.lpr"/>
+        <Caret Line="111" Column="7" TopLine="96"/>
+      </Position5>
+      <Position6>
+        <Filename Value="demo.lpr"/>
+        <Caret Line="12" Column="45"/>
+      </Position6>
+    </JumpHistory>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes Count="0" ActiveMode=""/>
+    </RunParams>
+  </ProjectSession>
+  <Debugging>
+    <Watches Count="2">
+      <Item1>
+        <Expression Value="n"/>
+      </Item1>
+      <Item2>
+        <Expression Value="b"/>
+      </Item2>
+    </Watches>
+  </Debugging>
+</CONFIG>

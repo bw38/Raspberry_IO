@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# Compiler + Options (!! keine Leerzeichen hinter Backslash)
+# Unitpaths bei Bedarf erweitern
+
+# Verzeichnisstrktur
+# ./*.lpr ./*.pas ./*.res
+# ../mylib/[libraries]
+# home/pi/lazarus/
+
+fpc \
+*.lpr \
+-MObjFPC \
+-Scghi \
+-O1 \
+-l \
+-XX -CX \
+-vewnhibq \
+-dUseCThreads \
+-Filib/arm-linux \
+-Fl/usr/lib/gcc/arm-linux-gnueabihf/8 \
+-Fu. \
+-Fu../pilib/serial \
+-Fu../pilib/kbd \
+-Fu../pilib/gpio \
+-Fu/home/pi/lazarus/components/lazutils \
+-o./binary/demo
+
+# ggf Debuginformationen entfernen
+ strip --strip-all ./binary/demo
+
