@@ -1,0 +1,6 @@
+# temporary pascal-files und directories
+*.o
+*.ppu
+**/lib
+**/backup
+
